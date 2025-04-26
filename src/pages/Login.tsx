@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LogIn } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { LogIn } from "lucide-react";
+import { supabase } from "../lib/supabase";
+import toast from "react-hot-toast";
 
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -20,10 +20,10 @@ export function Login() {
 
       if (error) throw error;
 
-      toast.success('Logged in successfully!');
-      navigate('/');
+      toast.success("Logged in successfully!");
+      navigate("/");
     } catch (error) {
-      toast.error('Failed to log in. Please check your credentials.');
+      toast.error("Failed to log in. Please check your credentials.");
     }
   };
 
@@ -74,10 +74,10 @@ export function Login() {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
+                <LogIn className="h-5 w-5 text-yellow-500 group-hover:text-yellow-600" />
               </span>
               Sign in
             </button>

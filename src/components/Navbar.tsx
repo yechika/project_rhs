@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Store, Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
 
@@ -9,33 +9,63 @@ export function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (search.trim()) {
+      navigate(`/products?search=${encodeURIComponent(search.trim())}`);
+      setSearch("");
+    }
+  };
+
   return (
-    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <nav className="bg-stone-900 fixed w-full z-20 top-0 start-0 border-b border-yellow-400">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <Store className="h-8 w-8 text-blue-600" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            MyStore
-          </span>
+          <img
+            src="https://www.distributorfluke.com/~img/logo_header_207x72_baa90_3845_470_t3845_133-0d1e4-3845_470-t3845_133.webp"
+            alt="Logo"
+            className="h-10 w-auto"
+          />
         </Link>
+
+        {/* Search Bar */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="hidden md:flex items-center mx-8 w-1/3"
+        >
+          <div className="relative w-full">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-yellow-400">
+              <Search className="h-5 w-5" />
+            </span>
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="block w-full pl-10 pr-4 py-2 rounded-lg border border-yellow-400 bg-stone-900 text-yellow-400 placeholder-yellow-300 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
+            />
+          </div>
+        </form>
+
         <div className="hidden md:flex flex-1 items-center justify-end">
           <ul className="flex space-x-8 font-medium ml-auto">
             <li>
               <Link
                 to="/"
-                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                className={`block py-2 px-3 rounded md:hover:bg-transparent md:p-0 ${
                   location.pathname === "/"
-                    ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:md:text-blue-500"
-                    : "text-gray-900 dark:text-white md:hover:text-blue-700 dark:hover:text-blue-500"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-white md:hover:text-yellow-400"
                 }`}
                 aria-current={location.pathname === "/" ? "page" : undefined}
               >
@@ -45,10 +75,10 @@ export function Navbar() {
             <li>
               <Link
                 to="/products"
-                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                className={`block py-2 px-3 rounded md:hover:bg-transparent md:p-0 ${
                   location.pathname === "/products"
-                    ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:md:text-blue-500"
-                    : "text-gray-900 dark:text-white md:hover:text-blue-700 dark:hover:text-blue-500"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-white md:hover:text-yellow-400"
                 }`}
                 aria-current={
                   location.pathname === "/products" ? "page" : undefined
@@ -60,10 +90,10 @@ export function Navbar() {
             <li>
               <Link
                 to="/contacts"
-                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                className={`block py-2 px-3 rounded md:hover:bg-transparent md:p-0 ${
                   location.pathname === "/contacts"
-                    ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:md:text-blue-500"
-                    : "text-gray-900 dark:text-white md:hover:text-blue-700 dark:hover:text-blue-500"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-white md:hover:text-yellow-400"
                 }`}
                 aria-current={
                   location.pathname === "/contacts" ? "page" : undefined
@@ -72,18 +102,33 @@ export function Navbar() {
                 Contacts
               </Link>
             </li>
+            <li>
+              <Link
+                to="/about_us"
+                className={`block py-2 px-3 rounded md:hover:bg-transparent md:p-0 ${
+                  location.pathname === "/about_us"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-white md:hover:text-yellow-400"
+                }`}
+                aria-current={
+                  location.pathname === "/about_us" ? "page" : undefined
+                }
+              >
+                About Us
+              </Link>
+            </li>
           </ul>
           {user ? (
             <button
               onClick={handleLogout}
-              className="ml-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="ml-6 text-stone-900 bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 text-center"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="ml-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="ml-6 text-stone-900 bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 text-center"
             >
               Login
             </Link>
@@ -93,21 +138,21 @@ export function Navbar() {
           {user ? (
             <button
               onClick={handleLogout}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-stone-900 bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 text-center"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-stone-900 bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 text-center"
             >
               Login
             </Link>
           )}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
             aria-controls="navbar-sticky"
             aria-expanded={isMenuOpen}
           >
@@ -116,20 +161,38 @@ export function Navbar() {
           </button>
         </div>
         <div
-          className={`items-center justify-between ${
-            isMenuOpen ? "block" : "hidden"
+          className={`items-center justify-between transition-all duration-300 ease-in-out transform ${
+            isMenuOpen ? "block opacity-100 translate-y-0" : "hidden opacity-0 -translate-y-4"
           } w-full md:hidden`}
           id="navbar-sticky"
         >
-          <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 space-y-2 dark:bg-gray-800 dark:border-gray-700">
+          {/* Mobile search bar */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex items-center mb-4 mt-4"
+          >
+            <div className="relative w-full">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-yellow-400">
+                <Search className="h-5 w-5" />
+              </span>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="block w-full pl-10 pr-4 py-2 rounded-lg border border-yellow-400 bg-stone-900 text-yellow-400 placeholder-yellow-300 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition"
+              />
+            </div>
+          </form>
+          <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 space-y-2">
             <li>
               <Link
                 to="/"
                 onClick={() => setIsMenuOpen(false)}
                 className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
                   location.pathname === "/"
-                    ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:md:text-blue-500"
-                    : "text-gray-900 dark:text-white md:hover:text-blue-700 dark:hover:text-blue-500"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-gray-900 md:hover:text-yellow-400"
                 }`}
                 aria-current={location.pathname === "/" ? "page" : undefined}
               >
@@ -142,8 +205,8 @@ export function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
                   location.pathname === "/products"
-                    ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:md:text-blue-500"
-                    : "text-gray-900 dark:text-white md:hover:text-blue-700 dark:hover:text-blue-500"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-gray-900 md:hover:text-yellow-400"
                 }`}
                 aria-current={
                   location.pathname === "/products" ? "page" : undefined
@@ -158,14 +221,30 @@ export function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
                   location.pathname === "/contacts"
-                    ? "bg-blue-700 text-white md:bg-transparent md:text-blue-700 dark:md:text-blue-500"
-                    : "text-gray-900 dark:text-white md:hover:text-blue-700 dark:hover:text-blue-500"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-gray-900 md:hover:text-yellow-400"
                 }`}
                 aria-current={
                   location.pathname === "/contacts" ? "page" : undefined
                 }
               >
                 Contacts
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about_us"
+                onClick={() => setIsMenuOpen(false)}
+                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                  location.pathname === "/about_us"
+                    ? "bg-yellow-400 text-stone-900 md:bg-transparent md:text-yellow-400"
+                    : "text-gray-900 md:hover:text-yellow-400"
+                }`}
+                aria-current={
+                  location.pathname === "/about_us" ? "page" : undefined
+                }
+              >
+                About Us
               </Link>
             </li>
           </ul>

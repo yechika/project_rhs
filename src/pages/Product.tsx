@@ -80,7 +80,7 @@ export function Product() {
                   {product.description}
                 </p>
                 <div className="mt-4 flex items-center justify-between">
-                  <p className="text-base font-semibold text-indigo-600">
+                  <p className="text-base font-semibold text-stone-900">
                     Rp
                     {product.price.toLocaleString("id-ID", {
                       minimumFractionDigits: 2,
@@ -89,14 +89,14 @@ export function Product() {
                   </p>
                   {product.original_link && (
                     <a
-                      href={product.original_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-                    >
-                      <ExternalLink className="h-3 w-3 mr-1" />
-                      Visit Site
-                    </a>
+                    href={product.original_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-black bg-yellow-400 hover:bg-yellow-500"
+                  >
+                    <ExternalLink className="h-3 w-3 mr-1" />
+                    Visit Site
+                  </a>
                   )}
                 </div>
               </div>

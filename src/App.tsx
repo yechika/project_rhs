@@ -9,6 +9,8 @@ import Carousel from './components/Carousel';
 import { Product } from './pages/Product';
 import Contacts from './pages/Contacts';
 import Banner from './components/Banner';
+import { AboutUs } from './pages/AboutUs';
+import { Yap } from './components/Yap';
 
 function AppWrapper() {
   return (
@@ -35,6 +37,7 @@ function App() {
             path="/"
             element={
               <div className="flex flex-col gap-y-10">
+                {!isAdmin && <Yap />}
                 <Home isAdmin={isAdmin} />
                 {!isAdmin && <Banner />}
                 {!isAdmin && <Contacts />}
@@ -44,6 +47,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/products" element={<Product />} />
           <Route path="/contacts" element={<Contacts />} />
+          <Route path="/about_us" element={<AboutUs/>} />
         </Routes>
       </main>
       <Footer />
