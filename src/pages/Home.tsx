@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import {  ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { Admin } from "./Admin";
@@ -77,17 +77,12 @@ export function Home({ isAdmin }: HomeProps) {
                     maximumFractionDigits: 2,
                   })}
                 </p>
-                {product.original_link && (
-                  <a
-                    href={product.original_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-stone-900 bg-yellow-400 hover:bg-yellow-500 transition-colors duration-200"
-                  >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Visit Site
-                  </a>
-                )}
+                <Link
+                  to={`/products/${product.id}`}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-stone-900 bg-yellow-400 hover:bg-yellow-500 transition-colors duration-200"
+                >
+                  Details
+                </Link>
               </div>
             </div>
           </div>

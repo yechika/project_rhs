@@ -11,6 +11,7 @@ import Contacts from './pages/Contacts';
 import Banner from './components/Banner';
 import { AboutUs } from './pages/AboutUs';
 import { Yap } from './components/Yap';
+import { ProductDetails } from './pages/ProductDetails';
 
 function AppWrapper() {
   return (
@@ -46,6 +47,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/products" element={<Product />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/about_us" element={<AboutUs/>} />
         </Routes>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { ExternalLink, Search } from "lucide-react";
+import {  Search } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import { Link } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -76,7 +77,7 @@ export function Product() {
                 <h3 className="text-lg font-semibold text-gray-900">
                   {product.name}
                 </h3>
-                <p className="mt-2 text-gray-600 text-sm">
+                <p className="mt-2 text-gray-600 text-sm line-clamp-3">
                   {product.description}
                 </p>
                 <div className="mt-4 flex items-center justify-between">
@@ -87,17 +88,12 @@ export function Product() {
                       maximumFractionDigits: 2,
                     })}
                   </p>
-                  {product.original_link && (
-                    <a
-                    href={product.original_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to={`/products/${product.id}`}
                     className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-black bg-yellow-400 hover:bg-yellow-500"
                   >
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    Visit Site
-                  </a>
-                  )}
+                    Details
+                  </Link>
                 </div>
               </div>
             </div>
