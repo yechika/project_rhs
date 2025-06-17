@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, Search } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
+import iconByond from './icon_byond.png';
+
 
 export function Navbar() {
   const { user } = useAuth();
@@ -32,9 +34,16 @@ export function Navbar() {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
-            src="https://www.distributorfluke.com/~img/logo_header_207x72_baa90_3845_470_t3845_133-0d1e4-3845_470-t3845_133.webp"
+            src={iconByond}
             alt="Logo"
-            className="h-10 w-auto"
+            className="h-10 w-auto object-cover"
+            style={{
+              aspectRatio: '2/1', 
+              objectPosition: 'center',
+              height: '20px',
+              width: '100px',  
+              overflow: 'hidden',
+            }}
           />
         </Link>
 

@@ -126,7 +126,7 @@ export function Footer() {
 
         <div className="mt-12 border-t border-yellow-400 pt-8">
           <p className="text-base text-yellow-400 text-center">
-            &copy; 2025 MyStore. All rights reserved.
+            &copy; 2025 PT Biondi Loka Niaga. All rights reserved.
           </p>
         </div>
       </div>

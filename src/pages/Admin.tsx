@@ -10,6 +10,7 @@ interface Product {
   price: number;
   image_url: string;
   original_link?: string;
+  category?: string;
 }
 
 export function Admin() {
@@ -18,8 +19,13 @@ export function Admin() {
   const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
   const [uploading, setUploading] = useState(false);
 
+  // Category state
+  const [categories, setCategories] = useState<string[]>([]);
+  const [newCategory, setNewCategory] = useState("");
+
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const fetchProducts = async () => {
@@ -30,6 +36,26 @@ export function Admin() {
 
     if (data) {
       setProducts(data);
+    }
+  };
+
+  // Fetch unique categories from products table
+  const fetchCategories = async () => {
+    const { data } = await supabase
+      .from("products")
+      .select("category");
+    if (data) {
+      const unique = Array.from(
+        new Set(data.map((item: { category?: string }) => item.category).filter(Boolean))
+      );
+      setCategories(unique as string[]);
+    }
+  };
+
+  const handleAddCategory = () => {
+    if (newCategory && !categories.includes(newCategory)) {
+      setCategories([...categories, newCategory]);
+      setNewCategory("");
     }
   };
 
@@ -46,6 +72,7 @@ export function Admin() {
             price: currentProduct.price,
             image_url: currentProduct.image_url,
             original_link: currentProduct.original_link,
+            category: currentProduct.category,
           })
           .eq("id", currentProduct.id);
 
@@ -65,6 +92,7 @@ export function Admin() {
       setIsEditing(false);
       setCurrentProduct({});
       fetchProducts();
+      fetchCategories();
     } catch (error) {
       toast.error("Failed to save product.");
       alert("Failed to save product.");
@@ -252,6 +280,44 @@ export function Admin() {
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   placeholder="https://tokopedia.com/product"
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Category
+                </label>
+                <div className="flex gap-2">
+                  <select
+                    value={currentProduct.category || ""}
+                    onChange={(e) =>
+                      setCurrentProduct({
+                        ...currentProduct,
+                        category: e.target.value,
+                      })
+                    }
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  >
+                    <option value="">Select category</option>
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                    placeholder="New category"
+                    className="block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddCategory}
+                    className="inline-flex items-center px-2 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
               <button
                 type="submit"
